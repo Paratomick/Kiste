@@ -13,17 +13,17 @@ public class ImageButton extends ImageView {
 	
 	private Image img, hover, pressed;
 	
-	public void setNormal(String path) {
-		img = Images.getInstance().getImage(path);
+	public void setNormal(String key) {
+		img = Images.getInstance().getImage(key);
 		changeExit(ButtonState.NORMAL);
 	}
 	
-	public void setHover(String path) {
-		hover = Images.getInstance().getImage(path);
+	public void setHover(String key) {
+		hover = Images.getInstance().getImage(key);
 	}
 	
-	public void setPressed(String path) {
-		pressed = Images.getInstance().getImage(path);
+	public void setPressed(String key) {
+		pressed = Images.getInstance().getImage(key);
 	}
 	
 	public void createChangeListener() {
@@ -38,7 +38,13 @@ public class ImageButton extends ImageView {
 		});
 		
 		setOnMousePressed((event) -> changeExit(ButtonState.PRESSED));
-		setOnMouseReleased((event) -> changeExit(ButtonState.NORMAL));
+		setOnMouseReleased((event) -> {
+			if(isHover()) {
+				changeExit(ButtonState.HOVER);
+			} else {
+				changeExit(ButtonState.NORMAL);
+			}
+		});
 	}
 
 	public void setOnAction(EventHandler<? super MouseEvent> event) {
